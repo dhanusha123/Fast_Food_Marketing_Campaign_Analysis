@@ -28,4 +28,5 @@ The analysis leverages several data analytics techniques to derive meaningful in
 - **Credit Card** is the most preferred payment method, followed by PayPal.
 - **High-value customers** are fewer, but they represent significant revenue opportunities.
 
-**Explore the insights in the R Markdown file and gain a better understanding of consumer behavior through data analytics!**
+**Explore the insights in the R Markdown file or the Medium article to gain a better understanding of consumer behavior through data analytics!**
+link: https://medium.com/@dhanusha.viraj/from-boring-to-brilliant-using-data-to-supercharge-marketing-campaigns-and-win-big-1235c24efffb 
