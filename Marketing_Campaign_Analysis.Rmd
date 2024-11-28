@@ -1,0 +1,384 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+rm(list = ls())
+```
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+
+# Load the dataset
+data <- read.csv("WA_Marketing-Campaign.csv")
+
+# Preview the dataset
+head(data)
+
+
+```
+
+```{r}
+# Check for missing values
+colSums(is.na(data))
+
+# Check for duplicates
+sum(duplicated(data))
+
+# Summary statistics
+summary(data)
+
+# Check for outliers in Sales
+boxplot(data$SalesInThousands, main = "Boxplot of Sales (in Thousands)")
+
+```
+
+```{r}
+ggplot(data, aes(x = factor(Promotion), y = SalesInThousands)) +
+  geom_boxplot(fill = "lightblue") +
+  labs(title = "Sales Distribution Across Promotions",
+       x = "Promotion",
+       y = "Sales (in Thousands)")
+
+
+```
+
+```{r}
+
+ggplot(data, aes(x = MarketSize, y = SalesInThousands)) +
+  geom_boxplot(fill = "lightgreen") +
+  labs(title = "Sales Distribution by Market Size",
+       x = "Market Size",
+       y = "Sales (in Thousands)")
+
+```
+
+```{r}
+ggplot(data, aes(x = week, y = SalesInThousands, color = factor(Promotion), group = Promotion)) +
+  geom_line(stat = "summary", fun = mean) +
+  geom_point(stat = "summary", fun = mean) +
+  labs(title = "Weekly Sales Trends by Promotion",
+       x = "Week",
+       y = "Average Sales (in Thousands)")
+
+```
+
+```{r}
+ggplot(data, aes(x = AgeOfStore, y = SalesInThousands, color = factor(Promotion))) +
+  geom_point(alpha = 0.7) +
+  labs(title = "Sales vs. Age of Store by Promotion",
+       x = "Age of Store (Years)",
+       y = "Sales (in Thousands)")
+
+
+```
+
+```{r}
+ggplot(data, aes(x = week, y = SalesInThousands)) +
+  geom_line(stat = "summary", fun = mean, color = "blue", size = 1) +
+  geom_point(stat = "summary", fun = mean, color = "red", size = 2) +
+  labs(title = "Overall Weekly Sales Trend",
+       x = "Week",
+       y = "Average Sales (in Thousands)") +
+  theme_minimal()
+
+
+```
+
+```{r}
+avg_sales <- data %>%
+  group_by(Promotion, MarketSize) %>%
+  summarise(Average_Sales = mean(SalesInThousands)) %>%
+  arrange(desc(Average_Sales))
+
+print(avg_sales)
+
+ggplot(avg_sales, aes(x = factor(Promotion), y = Average_Sales, fill = MarketSize)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Average Sales by Promotion and Market Size",
+       x = "Promotion",
+       y = "Average Sales (in Thousands)") +
+  theme_minimal()
+
+
+```
+
+```{r}
+ggplot(data, aes(x = factor(week), y = SalesInThousands)) +
+  geom_boxplot(fill = "lightcoral") +
+  labs(title = "Sales Distribution Across Weeks",
+       x = "Week",
+       y = "Sales (in Thousands)") +
+  theme_minimal()
+
+```
+
+```{r}
+ggplot(data, aes(x = AgeOfStore, y = SalesInThousands, color = MarketSize)) +
+  geom_smooth(method = "lm", se = FALSE, size = 1) +
+  geom_point(alpha = 0.6) +
+  labs(title = "Impact of Store Age on Sales by Market Size",
+       x = "Age of Store (Years)",
+       y = "Sales (in Thousands)") +
+  theme_minimal()
+
+
+```
+```{r}
+ggplot(data, aes(x = SalesInThousands, fill = factor(Promotion))) +
+  geom_density(alpha = 0.6) +
+  labs(title = "Density Plot of Sales by Promotion",
+       x = "Sales (in Thousands)",
+       y = "Density") +
+  scale_fill_discrete(name = "Promotion") +
+  theme_minimal()
+
+```
+
+```{r}
+library(reshape2)
+cor_data <- data %>%
+  select(AgeOfStore, week, SalesInThousands) %>%
+  cor()
+
+melted_cor <- melt(cor_data)
+
+ggplot(data = melted_cor, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient2(low = "black", high = "red", mid = "white",
+                       midpoint = 0, limit = c(-1, 1), space = "Lab",
+                       name = "Correlation") +
+  labs(title = "Correlation Heatmap") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+
+```{r}
+# Subset the data for each promotion
+promotion1 <- data %>% filter(Promotion == 1)
+promotion2 <- data %>% filter(Promotion == 2)
+promotion3 <- data %>% filter(Promotion == 3)
+
+# Perform pairwise t-tests
+t_test_1_vs_2 <- t.test(promotion1$SalesInThousands, promotion2$SalesInThousands, 
+                        alternative = "two.sided", var.equal = FALSE)
+t_test_1_vs_3 <- t.test(promotion1$SalesInThousands, promotion3$SalesInThousands, 
+                        alternative = "two.sided", var.equal = FALSE)
+t_test_2_vs_3 <- t.test(promotion2$SalesInThousands, promotion3$SalesInThousands, 
+                        alternative = "two.sided", var.equal = FALSE)
+
+# Display results
+print("T-Test: Promotion 1 vs Promotion 2")
+print(t_test_1_vs_2)
+
+print("T-Test: Promotion 1 vs Promotion 3")
+print(t_test_1_vs_3)
+
+print("T-Test: Promotion 2 vs Promotion 3")
+print(t_test_2_vs_3)
+
+```
+
+```{r}
+# Extract p-values
+p_values <- c(t_test_1_vs_2$p.value, t_test_1_vs_3$p.value, t_test_2_vs_3$p.value)
+
+# Adjust p-values using Bonferroni correction
+adjusted_p_values <- p.adjust(p_values, method = "bonferroni")
+
+# Display adjusted p-values
+print("Adjusted P-Values (Bonferroni Correction):")
+print(adjusted_p_values)
+
+
+```
+
+```{r}
+# Create a summary of average sales for each promotion
+avg_sales_promo <- data %>%
+  group_by(Promotion) %>%
+  summarise(Average_Sales = mean(SalesInThousands))
+
+# Plot the sales distribution for each promotion
+ggplot(data, aes(x = factor(Promotion), y = SalesInThousands, fill = factor(Promotion))) +
+  geom_boxplot() +
+  labs(title = "Sales Distribution by Promotion",
+       x = "Promotion",
+       y = "Sales (in Thousands)") +
+  theme_minimal()
+
+# Add a bar chart for average sales
+ggplot(avg_sales_promo, aes(x = factor(Promotion), y = Average_Sales, fill = factor(Promotion))) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Sales by Promotion",
+       x = "Promotion",
+       y = "Average Sales (in Thousands)") +
+  theme_minimal()
+
+
+```
+
+```{r}
+
+# question to clarify: 
+
+# Are there any assumptions we should make about the dataset (e.g., randomness, independence of samples)?
+
+# Should we account for market size explicitly in our A/B testing, or focus solely on the effectiveness of promotions?
+# Is there a specific way to interpret the "market size" variable in relation to promotions?
+
+# Should adjustments for multiple comparisons (e.g., Bonferroni correction) be applied, or is it sufficient to report unadjusted p-values?
+
+# Is it appropriate to include additional exploratory tests, such as ANOVA or regression analysis, to support the A/B testing?
+
+# Should we explore interaction effects (e.g., promotion and market size) or keep the analysis simple?
+
+# 
+
+
+```
+
+```{r}
+
+# Statistical Confidence in Promotion Effectiveness
+# Pairwise T-tests with Confidence Intervals
+
+# Pairwise T-tests for promotions
+t_test_1_vs_2 <- t.test(data$SalesInThousands[data$Promotion == 1], 
+                        data$SalesInThousands[data$Promotion == 2],
+                        var.equal = FALSE, conf.level = 0.95)
+t_test_1_vs_3 <- t.test(data$SalesInThousands[data$Promotion == 1], 
+                        data$SalesInThousands[data$Promotion == 3],
+                        var.equal = FALSE, conf.level = 0.95)
+t_test_2_vs_3 <- t.test(data$SalesInThousands[data$Promotion == 2], 
+                        data$SalesInThousands[data$Promotion == 3],
+                        var.equal = FALSE, conf.level = 0.95)
+
+# Display results
+list(
+  "Promotion 1 vs Promotion 2" = t_test_1_vs_2,
+  "Promotion 1 vs Promotion 3" = t_test_1_vs_3,
+  "Promotion 2 vs Promotion 3" = t_test_2_vs_3
+)
+
+
+```
+
+```{r}
+# Prioritize Promotions 1 and 3:
+# These promotions perform significantly better than Promotion 2.
+
+# Tailor Strategy Between Promotion 1 and Promotion 3:
+# While there is no significant difference between them overall, further segmentation (e.g., by market size) could reveal when one is more effective than the other.
+
+# Reevaluate Promotion 2:
+# Consider revising or replacing Promotion 2, as it consistently underperforms compared to the others.
+
+```
+
+```{r}
+
+# Testing the promotions with the Market size
+
+# Two-way ANOVA
+interaction_model <- aov(SalesInThousands ~ factor(Promotion) * factor(MarketSize), data = data)
+summary(interaction_model)
+
+# Post-hoc tests for interaction if significant
+if (summary(interaction_model)[[1]]["factor(Promotion):factor(MarketSize)", "Pr(>F)"] < 0.05) {
+  TukeyHSD(interaction_model)
+}
+
+
+```
+
+```{r}
+# ANOVA Table
+
+# Main Effect of Promotion:
+# F(2,539)=49.611,p<0.001 (significant).
+# Promotions significantly affect sales overall, confirming that certain promotions are more effective than others.
+
+#Main Effect of Market Size:
+#F(2,539)=337.136,p<0.001 (highly significant).
+#Market size has a substantial impact on sales, with larger markets driving higher sales.
+
+#Interaction Effect (Promotion × Market Size):
+#F(4,539)=4.586,p=0.001 (significant).
+#The effectiveness of promotions depends on the market size, indicating that promotion performance varies across small, medium, and large markets.
+```
+
+```{r}
+# Promotion Effect
+#Promotion 2 vs. Promotion 1:
+#Difference: −10.77 (significant)
+#Promotion 1 significantly outperforms Promotion 2.
+
+#Promotion 3 vs. Promotion 1:
+#Difference: −2.73 (significant)
+#Promotion 1 slightly outperforms Promotion 3, but the difference is small.
+
+#Promotion 3 vs. Promotion 2:
+#Difference: +8.03(significant)
+#Promotion 3 significantly outperforms Promotion 2.
+
+
+
+#Market Size Effect
+#Medium vs. Large:
+#Difference: −26.39 (significant)
+#Large markets significantly outperform medium markets.
+
+#Small vs. Large:
+#Difference: −13.63 (significant, 
+#Large markets significantly outperform small markets.
+
+#Small vs. Medium:
+#Difference: +12.76 (significant, 
+#Medium markets significantly outperform small markets.
+
+
+# Interaction Effect (Promotion × Market Size)
+#Key Comparisons:
+  
+#Promotion 2 in large markets performs −14.91 lower than Promotion 1 in large markets
+#Promotion 3 in large markets is similar to Promotion 1 in large markets
+
+#In medium markets:
+#Promotion 3 performs better than Promotion 2
+#Promotion 1 outperforms Promotion 2.
+
+#In small markets:
+#Promotion 1 and Promotion 3 perform similarly, but both significantly outperform Promotion 2.
+
+
+# Promotion Effectiveness:
+#Promotion 3 is consistently better than Promotion 2 across all market sizes.
+#Promotion 1 is slightly better than Promotion 3 overall, but the difference is marginal.
+
+#Market Size Impact:
+#Large markets generate the highest sales, followed by medium and small markets.
+#The relative effectiveness of promotions is consistent across market sizes, but differences are more pronounced in medium and small markets.
+
+#Interaction Effects:
+#The choice of promotion matters most in medium and small markets.
+#In large markets, Promotion 1 and Promotion 3 perform similarly, making either a viable choice.
+
+
+```
+
+```{r}
+
+
+
+
+```
+
+
+
