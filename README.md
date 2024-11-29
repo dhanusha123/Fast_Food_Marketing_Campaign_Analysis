@@ -1,5 +1,8 @@
 # Fast_Food_Marketing_Campaign_Analysis
 
+https://miro.medium.com/v2/resize:fit:1400/format:webp/0*32N2gw13BZOoDiSD.jpeg![image](https://github.com/user-attachments/assets/fbdbfaac-b3f2-4ad9-b9a4-b27c294a95e9)
+
+
 This repository contains an R Markdown report aims to provide comprehensive insights into consumer purchasing patterns, helping businesses better understand their customers and optimize marketing strategies.
 
 ### 📊 Description
