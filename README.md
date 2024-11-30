@@ -9,65 +9,68 @@ This article will take you through the journey of analyzing a marketing campaign
 The dataset used for this analysis contains information about a marketing campaign, focusing on sales (SalesInThousands) across multiple weeks, promotions (Promotion), market size (MarketSize), and store characteristics like AgeOfStore. The data provides a rich context for understanding the effectiveness of different promotional tactics and how they vary across market segments.
 ![image](https://github.com/user-attachments/assets/1c8bb595-ccf5-4291-83d2-3712387c5337)
 
+A quick summary of the dataset:
+Variables: Promotions, sales, market size, week, store age.
+Dataset Quality: The initial inspection included checks for missing values, duplicates, and a summary of key metrics. Data visualization was extensively used to identify patterns and outliers.
+
+The diversity in promotional tactics and the information on weekly trends and store demographics allowed to build a comprehensive understanding of what drives sales for each segment.
 
 ## Data Cleaning and Preprocessing
-The initial step involved cleaning the dataset by removing duplicates, correcting data types, and dropping non-essential columns. After ensuring the integrity of the data, proceeded to engineer new features. For example, added fields like Average Purchase Amount, Total Purchases, and Days Since Last Purchase to get a clearer picture of customer value and behavior patterns.
+The first step in this analysis was to ensure data quality. As the initial step, checked for missing values and duplicates, which, if not handled, could lead to incorrect conclusions.
+Missing Values: Analysis revealed some missing data, which was either imputed or excluded based on its potential impact.
+Duplicates: Duplicate records were minimal, and these were removed to prevent skewing the analysis.
+Outlier Analysis: A boxplot was used to identify outliers in the sales data (SalesInThousands). Handling these outliers ensured that extreme values did not overly influence our results, especially during trend analysis and predictive modeling.
+![image](https://github.com/user-attachments/assets/3dd17708-dc82-4dcf-9831-ed020b93cacf)
+
+The data was then transformed to create more meaningful visualizations. For instance, categorical variables like Promotion were converted into factors for easier grouping, while numerical variables such as AgeOfStore and week were standardized for effective analysis.
 
 ## Key Insights from the Data
-1. High-Value Customers vs Low-Value Customers
-One of the most crucial insights was differentiating between high-value and low-value customers. By categorizing customers with an average purchase above $75 as high-value, it was found significant behavioral differences between these two segments.
-![image](https://github.com/user-attachments/assets/334cb0d6-91d0-4a0e-b096-ad0d3dcd5d12)
-A t-test revealed a statistically significant difference in the purchasing amounts of high-value customers compared to low-value ones (p-value < 0.05). This suggests that a distinct group of customers consistently makes larger purchases, and businesses could benefit from loyalty programs or targeted promotions for this segment.
+The heart of the analysis focused on uncovering patterns through exploratory data analysis (EDA) and visualizations. Here are some of the significant insights:
 
-2. Gender-Based Spending Analysis
-When analyzing the purchasing amounts by gender, it was found only a subtle difference, with female customers spending slightly more on average (≈ $60.25) compared to male customers (≈ $59.54). Though the difference is not significant, it still indicates a slight skew, which may be useful in fine-tuning marketing messages.
-![image](https://github.com/user-attachments/assets/d8c3b4fd-8b5c-4144-b431-b056d68e69c1)
+**1. Sales by Promotion:**
+Promotion Effectiveness: Different promotions impacted sales significantly. Promotions aimed at higher market sizes saw distinct improvements in sales, which was evident from the boxplots visualizing sales distribution.
+![image](https://github.com/user-attachments/assets/81d1b41c-92ca-410b-8255-a152c5ff4a31)
+![image](https://github.com/user-attachments/assets/fec7a1e6-7234-4174-98dc-7e89c62fc0ef)
 
-3. Relationship Between Discount Usage and Customer Value
-Conducted a chi-square test to assess whether frequent discount usage was linked to being a high-value customer. Interestingly, the results showed no statistically significant relationship between the two, suggesting that high-value customers do not necessarily rely on discounts, but instead may be more loyal or satisfied with the brand’s offerings regardless of promotional incentives.
+Promotional Timing: Weekly trends indicated that certain promotions were more effective during specific weeks, suggesting a temporal element in the customer response that businesses can leverage.
+![image](https://github.com/user-attachments/assets/25a31e66-f7eb-4834-98ce-08e0a2fbb293)
 
-4. Age Group Analysis and Purchase Trends
-Age is often a significant determinant of consumer behavior. Segmented our customer base into several age groups (<18, 18–35, 35–50, 50–65, and 65+). The analysis showed that customers in the 50–65 age group tend to have the highest average purchase amount, indicating that middle-aged individuals are more likely to make higher-value purchases.
+**2. Market Size Analysis:**
+Sales and Market Size: Larger markets saw a higher impact from promotional activities. A comparative boxplot analysis showed that while promotions worked across all market sizes, the relative increase in sales was more pronounced in larger markets.
+![image](https://github.com/user-attachments/assets/832fdc02-f7e4-4448-8653-89d574503a90)
 
-Interestingly, younger customers (<18) and those between 18–35 also showed considerable spending, suggesting a strong potential market for younger demographics if appropriate marketing and product offerings are introduced.
-![image](https://github.com/user-attachments/assets/9316a7ee-d84c-48ad-a493-e9ebf654b759)
+**3. Store Characteristics and Sales:**
+Age of Store: The analysis explored the relationship between the store age and sales, indicating that older stores tended to perform differently based on the promotion type and market size. This insight is valuable for targeting stores for future campaigns.
+![image](https://github.com/user-attachments/assets/ab4c6be3-e023-41b9-9601-67ffb470702c)
 
-Seasonal Trends and Payment Preferences
-Seasonal Variations in Purchase Behavior
-The analysis of seasonal trends indicated that Spring and Fall are peak seasons for purchasing. Customers tend to spend more during these periods, potentially due to new product launches, holidays, or weather changes influencing buying behavior. Understanding this pattern allows businesses to allocate marketing budgets strategically during these high-revenue months.
+Linear Model for Age Impact: The use of linear models helped quantify the effect of store age on sales. Stores with medium age benefited most from certain promotions, showing a clear trend that could be capitalized on.
 
-Payment Method Preferences
-Analyzing payment method usage revealed that Credit Card was the most commonly used payment method, followed by PayPal and Bank Transfer. This insight helps businesses optimize their payment gateway options and ensure that they are providing convenient payment methods to maximize conversions.
-![image](https://github.com/user-attachments/assets/b4601cfe-9b6b-4db3-ae88-cc85961d3c55)
+**4. Sales Distribution by Weeks:**
+Weekly Sales Trends: Observed peaks in sales during particular weeks, highlighting the cyclical nature of the response to promotions. The boxplots and line charts provided a comprehensive view of how sales varied week by week, suggesting potential seasonal or situational influences.
+![image](https://github.com/user-attachments/assets/4876872f-3f5c-4933-aea7-8079f1ef13c6)
+![image](https://github.com/user-attachments/assets/6a89b3a3-c04d-40d4-b548-2235197782a1)
 
-## Visual Insights
-To support the findings, various visualizations were created:
+**5. Promotion vs. Market Size:**
+Best Combinations: By grouping sales data by Promotion and MarketSize, identified the combination that generated the highest average sales. Certain promotions worked particularly well in large markets, making them suitable candidates for scaling campaigns.
+![image](https://github.com/user-attachments/assets/538d54f7-8afb-44be-a104-4c5ab4b62d87)
 
-Correlation Heatmap: Highlighting relationships among numerical variables such as purchase amounts, customer age, and review ratings.
-![image](https://github.com/user-attachments/assets/71829714-c517-43ae-bd13-36cef80225ca)
-
-Category-Wise Sales Analysis: The Clothing category emerged as the top contributor to total sales, emphasizing its popularity among customers.
-![image](https://github.com/user-attachments/assets/ec324688-d93c-4020-a00b-1047bde3c712)
-
-Purchase Amount Distribution: This visualization showed a right-skewed distribution, indicating that while most customers make smaller purchases, a few high-value transactions have a substantial impact on overall sales.
-![image](https://github.com/user-attachments/assets/d2d55ca3-9136-4c04-bdf5-e7f6e0356bc7)
 
 ## Summary and Business Recommendations
-Target High-Value Customers: The significant difference between high and low-value customers emphasizes the need for businesses to cultivate relationships with high-value customers through loyalty programs or exclusive offers.
-Seasonal Campaign Planning: Since Spring and Fall are peak seasons, businesses should plan promotions, inventory, and marketing efforts accordingly to maximize sales.
-Age-Specific Marketing Strategies: Given that middle-aged customers are the most lucrative group, businesses could create premium offerings targeting this demographic, while also appealing to younger customers with trendy and affordable product options.
-Payment Method Optimization: Considering that Credit Card is the preferred payment method, businesses should ensure that their payment systems are seamless and secure, encouraging customers to complete their purchases without friction.
+Based on the analysis, here are the derived recommendations:
+Target Promotions by Market Size: Promotions should be tailored according to the market size. Large markets respond well to promotions with broader reach, while smaller markets may benefit more from focused, personalized campaigns.
+Timing of Promotions: Promotions should be concentrated during weeks where sales historically show an upward trend. Aligning promotional campaigns with these weeks will likely boost sales due to heightened customer interest during these periods.
+Focus on Store Demographics: Age-specific targeting could optimize promotional effectiveness. Stores that are neither too new nor too old benefit the most from specific promotions, suggesting that mid-aged stores should be prioritized for future campaigns.
+Invest in Data-Driven Campaigns: Incorporating data-driven insights into campaign planning can enhance ROI. Sales densities and trends across different promotions provide a clear understanding of customer preferences, which can help refine promotional messages and offers.
+
 
 ## Final Thoughts
-Data-driven insights provide an edge in understanding customer behavior and tailoring business strategies. This analysis sheds light on valuable customer segments, seasonal trends, and spending patterns that can inform both short-term campaigns and long-term strategic initiatives. With a well-informed approach, businesses can not only boost revenue but also create a more personalized and satisfying shopping experience for their customers.
-
-Stay tuned for more data-driven articles that help bridge the gap between analytics and business strategy!
-
-Data Source: https://www.kaggle.com/datasets/bhadramohit/customer-shopping-latest-trends-dataset/data
-Image: https://camoinassociates.com/resources/navigating-shifts-in-american-consumer-spending/
+This marketing campaign analysis provided insights into optimizing promotional strategies by leveraging data on sales, market size, store characteristics, and customer response patterns. The visual exploration allowed us to understand which market segments to target and how promotions can be designed to achieve maximum impact.
+The power of data lies in its ability to inform and drive decisions that align with business goals. With these insights, companies can now design campaigns that are more strategic, targeted, and likely to yield better results.
 
 
-
+Data analytics is not just about understanding the past — it’s about shaping future business decisions to maximize efficiency and profitability.
+Data Source: https://www.kaggle.com/datasets/chebotinaa/fast-food-marketing-campaign-ab-test
+Image:https://images.app.goo.gl/oeMGoSf9dBSk5rLAA
 
 **Explore the insights in the R Markdown file or the Medium article to gain a better understanding of consumer behavior through data analytics!**
 link: https://medium.com/@dhanusha.viraj/from-boring-to-brilliant-using-data-to-supercharge-marketing-campaigns-and-win-big-1235c24efffb 
