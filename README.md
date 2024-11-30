@@ -1,4 +1,5 @@
 # Cracking the Code of Consumer Spending: A Data-Driven Analysis of Purchasing Patterns
+![image](https://github.com/user-attachments/assets/5defa4ef-4a67-4098-82be-9013655ca88f)
 
 ## Introduction 
 
