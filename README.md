@@ -79,6 +79,6 @@ The power of data lies in its ability to inform and drive decisions that align w
 
 
 Data analytics is not just about understanding the past — it’s about shaping future business decisions to maximize efficiency and profitability.
-Data Source: https://www.kaggle.com/datasets/chebotinaa/fast-food-marketing-campaign-ab-test
-Image:https://images.app.goo.gl/oeMGoSf9dBSk5rLAA
+Data Source: (https://www.kaggle.com/datasets/chebotinaa/fast-food-marketing-campaign-ab-test) 
+Image:(https://images.app.goo.gl/oeMGoSf9dBSk5rLAA) 
 
