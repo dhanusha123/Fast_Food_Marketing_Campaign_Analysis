@@ -57,14 +57,15 @@ Best Combinations: By grouping sales data by Promotion and MarketSize, identifie
 
 ## Summary and Business Recommendations
 Based on the analysis, here are the derived recommendations:
-Target Promotions by Market Size: Promotions should be tailored according to the market size. Large markets respond well to promotions with broader reach, while smaller markets may benefit more from focused, personalized campaigns.
-Timing of Promotions: Promotions should be concentrated during weeks where sales historically show an upward trend. Aligning promotional campaigns with these weeks will likely boost sales due to heightened customer interest during these periods.
-Focus on Store Demographics: Age-specific targeting could optimize promotional effectiveness. Stores that are neither too new nor too old benefit the most from specific promotions, suggesting that mid-aged stores should be prioritized for future campaigns.
-Invest in Data-Driven Campaigns: Incorporating data-driven insights into campaign planning can enhance ROI. Sales densities and trends across different promotions provide a clear understanding of customer preferences, which can help refine promotional messages and offers.
+1. Target Promotions by Market Size: Promotions should be tailored according to the market size. Large markets respond well to promotions with broader reach, while smaller markets may benefit more from focused, personalized campaigns.
+2. Timing of Promotions: Promotions should be concentrated during weeks where sales historically show an upward trend. Aligning promotional campaigns with these weeks will likely boost sales due to heightened customer interest during these periods.
+3. Focus on Store Demographics: Age-specific targeting could optimize promotional effectiveness. Stores that are neither too new nor too old benefit the most from specific promotions, suggesting that mid-aged stores should be prioritized for future campaigns.
+4. Invest in Data-Driven Campaigns: Incorporating data-driven insights into campaign planning can enhance ROI. Sales densities and trends across different promotions provide a clear understanding of customer preferences, which can help refine promotional messages and offers.
 
 
 ## Final Thoughts
 This marketing campaign analysis provided insights into optimizing promotional strategies by leveraging data on sales, market size, store characteristics, and customer response patterns. The visual exploration allowed us to understand which market segments to target and how promotions can be designed to achieve maximum impact.
+
 The power of data lies in its ability to inform and drive decisions that align with business goals. With these insights, companies can now design campaigns that are more strategic, targeted, and likely to yield better results.
 
 
